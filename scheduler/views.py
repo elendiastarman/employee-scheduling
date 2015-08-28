@@ -1517,18 +1517,18 @@ def addeditdelete_view(request, *args, **kwargs):
         if request.method == 'POST':
             is_valid = True
             
-            if 'name' in request.POST and request.POST['name'] == '':
-                is_valid = False
-                context['name_error'] = "Please enter a name."
-            elif 'name' not in request.POST:
-                is_valid = False
-                context['name_error'] = "You think you're so clever, don'tcha?"
-            if 'short_name' in request.POST and request.POST['short_name'] == '':
-                is_valid = False
-                context['short_name_error'] = "Please enter a short name."
-            elif 'short_name' not in request.POST:
-                is_valid = False
-                context['short_name_error'] = "Ha! Nice try!"
+##            if 'name' in request.POST and request.POST['name'] == '':
+##                is_valid = False
+##                context['name_error'] = "Please enter a name."
+##            elif 'name' not in request.POST:
+##                is_valid = False
+##                context['name_error'] = "You think you're so clever, don'tcha?"
+##            if 'short_name' in request.POST and request.POST['short_name'] == '':
+##                is_valid = False
+##                context['short_name_error'] = "Please enter a short name."
+##            elif 'short_name' not in request.POST:
+##                is_valid = False
+##                context['short_name_error'] = "Ha! Nice try!"
             
             if 'subreq' in request.POST and request.POST['subreq'] == '' or not request.POST['subreq'].isdigit():
                 is_valid = False

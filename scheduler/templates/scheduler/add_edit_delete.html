@@ -222,12 +222,12 @@
 		<form action="" method="post">
 			{% csrf_token %}
 			
-			<fieldset><legend>Names:</legend>
+			<fieldset><legend>Names: (DISABLED)</legend>
 				<p><em><strong>CAUTION:</strong> changing these, especially the short name, <strong>may</strong>
 				   break functionality somewhere.</em> (If it does, please let me, Lee, know.)</p>
-				<p><label>Name: <input type="text" name="name" maxlength="100" value="{{euf_name}}"/></label></p>
+				<p><label>Name: <input type="text" name="name" maxlength="100" value="{{euf_name}}" disabled /></label></p>
 				{% if name_error %}<p class="error">{{name_error}}</p>{% endif %}
-				<p><label>Short name: <input type="text" name="short_name" maxlength="20" value="{{euf_short_name}}"/></label></p>
+				<p><label>Short name: <input type="text" name="short_name" maxlength="20" value="{{euf_short_name}}" disabled /></label></p>
 				{% if short_name_error %}<p class="error">{{short_name_error}}</p>{% endif %}
 			</fieldset>
 			
