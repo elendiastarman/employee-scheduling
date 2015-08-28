@@ -1,0 +1,4 @@
+Someone asked for password reset for user {{ user }} at email {{ email }}. Follow the link below:
+{{ protocol}}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+
+If you did not request this email, you can still log in with your old password, and this link will become invalid.

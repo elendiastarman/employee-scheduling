@@ -1,0 +1,54 @@
+#welcome {
+	font-size: 20px;
+}
+
+.cell_borders td {
+	border: black solid 1px;
+}
+.right_align {
+	text-align: right;
+}
+
+.start0 {
+	/* background-color: orange; */
+	background: linear-gradient(#EEEEEE, yellow);
+}
+.start1 {
+	/* background-color: orange; */
+	background: linear-gradient(#DDDDDD, yellow);
+}
+.middle0, .middle1 {
+	background-color: yellow;
+}
+.end0 {
+	/* background-color: green; */
+	background: linear-gradient(yellow, #EEEEEE);
+}
+.end1 {
+	/* background-color: green; */
+	background: linear-gradient(yellow, #DDDDDD);
+}
+.signlet0 {
+	background: linear-gradient(#EEEEEE, yellow, #EEEEEE);
+}
+
+.singlet1 {
+	background: linear-gradient(#DDDDDD, yellow, #DDDDDD);
+}
+
+.center_table {
+	width: 70%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.main_block {
+	padding-left: 10px;
+}
+
+.hidden_checkbox {
+	display: none;
+}
+.checked {
+	background-color: yellow;
+}

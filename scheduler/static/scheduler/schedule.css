@@ -1,0 +1,144 @@
+/* h2, h4 {
+	text-align: center;
+	display: inline;
+	padding-left: 10px;
+	padding-right: 10px;
+} */
+
+#calendarbox0 {
+	border: 2px solid;
+}
+
+.errorlist {
+	color: red;
+	list-style-type: none;
+}
+
+#date_links, #jump_form {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* #date_links {
+	width: 60%;
+} */
+#jump_form {
+	width: 30%;
+}
+
+#jump_to_day_form > p{
+	float: left;
+}
+
+#jump_submit {
+	float: left;
+	margin-top: 19px;
+	margin-left: 15px;
+}
+
+/* .week_num {
+	border-bottom: #380155 solid 2px;
+	font-size: 14pt;
+} */
+/* .week_num td {
+	padding-top: 15px;
+} */
+.current_week td {
+	background-color: yellow;
+}
+/* .week_num h3 {
+	margin-bottom: 3px;
+} */
+/* .week_num h3 {
+	margin-bottom: 3px;
+} */
+/* table p {
+	margin-top: 0px;
+	margin-bottom: 1px;
+} */
+/* .date_str td {
+	padding-top: 5px;
+}
+.last_shift {
+	border-bottom: #380155 solid 1px;
+} */
+
+#date_links table {
+	width: 99%;
+	margin-left: auto;
+	margin-right: auto;
+	/* display: inline; */
+}
+#date_links table td {
+	padding: 1px;
+	border-left: 1px solid #380155;
+	text-align: center;
+}
+#date_links table .first_cell {
+	border-left: 0px;
+}
+#date_links table a {
+	text-decoration: none;
+}
+#date_links table h3, #date_links table h4, #date_links table p {
+	margin: 0;
+}
+
+table td {
+	height: 20px;
+}
+
+input.submit_warn:hover {
+	background-color: red;
+	color: yellow;
+}
+
+#shift_table td {
+	border: 1px solid #380155;
+	width: 0%;
+	/* white-space: pre; */
+	/* padding: 0px; */
+	padding-right: 5px;
+}
+#shift_table {
+	width: 99%;
+	margin-left: auto;
+	margin-right: auto;
+	/* border-collapse: separate;
+	border-spacing: 0px; */
+}
+.no_shift {
+	background-color: gray;
+}
+.sub_text {
+	font-size: 8pt;
+	float: right;
+	margin: 0px;
+	padding: 0px;
+	margin-top: -6px;
+	margin-right: -1px;
+}
+
+.exp_untrained {
+	background-color: #FFAAAA;
+}
+.exp_trained {
+	background-color: #FFAA66;
+}
+.exp_experienced {
+	background-color: #AAFFAA;
+}
+.exp_expert {
+	background-color: #AAAAFF;
+}
+
+.highlight {
+	background-color: yellow;
+}
+.highlight_border {
+	border-left: 3px solid yellow !important;
+	border-right: 3px solid yellow !important;
+}
+.highlight_border.day_last {
+	border-bottom: 3px solid yellow !important;
+}

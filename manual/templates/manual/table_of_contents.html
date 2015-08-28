@@ -1,0 +1,30 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block styling %}
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'manual/table_of_contents.css' %}" />
+{% endblock %}
+
+{% block scripts %}
+	<script type="text/javascript" src="{% static 'manual/table_of_contents.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+	{% for item in flattened_tree %}
+		
+		{% if item == 'in' %}
+			<ul class="{% if forloop.counter0 in to_expand %}expanded{% else %}collapsed{% endif %}" id="ul_{{forloop.counter0}}">
+		{% elif item == 'out' %}
+			</ul>
+		{% else %}
+			{% if forloop.counter0 in P %}
+				{% with k=forloop.counter0|add:1 %}
+					<li onclick="toggle('ul_{{k}}');" id="li_{{forloop.counter0}}">{{item.1}}</li>
+				{% endwith %}
+			{% else %}
+				<li id="li_{{forloop.counter0}}">&bull; {{item.1}}</li>
+			{% endif %}
+		{% endif %}
+		
+	{% endfor %}
+{% endblock %}

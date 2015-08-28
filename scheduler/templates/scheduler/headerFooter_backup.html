@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+
+		{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static 'scheduler/headerFooter.css' %}" />
+		<script type="text/javascript" src="{% static 'scheduler/headerFooter.js' %}"></script>
+		
+		{% block styling %}{% endblock styling %}
+		
+		{% block scripts %}{% endblock scripts %}
+	</head>
+	
+	<body>
+		<div id="topbar">
+			<div>
+			{% if request.session.current_unit == 'commons' %}
+				<img src="{% static 'scheduler/commons-logo.gif' %}" alt="commons logo" height="67px"/>
+			{% elif request.session.current_unit == 'dining services' or not request.session.current_unit %}
+				<img src="{% static 'scheduler/DiningServicesLogo.jpg' %}" alt="dining services logo" height="67px"/>
+			{% else %}
+				<p style="min-width: 100px;">{{ request.session.current_unit.upper }}</p>
+			{% endif %}
+			</div>
+			
+			{% if not user.is_anonymous %}
+				<div><p id="home"><strong><a href="{% url 'home' %}">Home</a></strong></p></div>
+				<div class="dropdown_menu"><p id="schedule"><strong><a href="{% url 'scheduler:today' %}">Schedule</a></strong></p>
+					<ul>
+						<li>test1</li>
+						<li>test2</li>
+					</ul>
+				</div>
+				<div><p id="sublist"><strong><a href="{% url 'sublist' %}">Sublist</a></strong></p></div>
+				<div><p id="policies"><strong><a href="{% url 'manual:main' 'policies' %}">Policies</a></strong></p></div>
+				<div><p id="manual"><strong><a href="{% url 'manual:main' %}">Manual</a></strong></p></div>
+			{% endif %}
+			{% if user.is_staff %}
+				<div><p id="users"><strong><a href="{% url 'users' %}">Users</a></strong></p></div>
+				<div><p id="admin"><strong><a href="{% url 'admin:index' %}">Admin</a></strong></p></div>
+			{% endif %}
+			
+			{% if user.is_anonymous %}
+				<div><p class="float_right"><a href="{% url 'login' %}">Login</a></p></div>
+			{% else %}
+				
+				<div class="float_right"><p><strong>Hello 
+					{% if user.worker %}{{ user.worker }}{% else %}{{ user }}{% endif %}!</strong>
+					{% if user.is_staff %} | <a href="{% url 'register' %}">Register new user</a> | {% endif %}
+					<a href="{% url 'logout' %}">Logout</a>
+				</p></div>
+				<div class="float_right"><p id="profile"><strong><a href="{% url 'profile' %}">Profile</a></strong></p></div>
+			{% endif %}
+		
+		</div>
+		
+		<div id="main_block">
+			{% block main %}{% endblock main %}
+		</div>
+		
+		<div id="footer">
+			<p id="footer_img"><img alt="Starman Innovations logo" src="{% static 'scheduler/StarmanInnovations_logo1_evensmaller.png' %}" /></p>
+			{% load scheduler_extras %}
+			{% if user.worker.unitstatus_set.all|length > 1 %}
+				<br/>
+				<form action="{% url 'change_unit' %}" method='POST'>
+					{% csrf_token %}
+					{% unit_selector user request.session.current_unit %}
+					<input type="hidden" name="next" value="{{ request.get_full_path }}" />
+					<input type="submit" value="Switch unit" />
+				</form>
+				<br/>
+			{% endif %}
+			<br/>
+			<p id="footer_text">Designed and developed by Lee Burnette. If you have any questions or concerns, please contact me at lee314b@gmail.com.</p>
+	</body>
+</html>

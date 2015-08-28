@@ -1,0 +1,46 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block styling %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'scheduler/schedule.css' %}" />
+{% endblock styling %}
+
+{% block main %}
+
+{% if 1 %}
+	<form action="" method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type='submit' value="Clear" name='_clear' />
+		<input type='submit' value="Generate" name='_generate' />
+	</form>
+{% endif %}
+
+{% if shift_list %}
+	<table>
+	<tr>
+		<th>Position</th>
+		<th>Time</th>
+		<th>Date</th>
+		<th>Day of week</th>
+		<th>Is weekly</th>
+		<th>Original worker</th>
+		<th>Substitute worker</th>
+	</tr>
+	{% for shift in shift_list %}
+		<tr>
+			<td>{{ shift.position.name }} ({{shift.position.get_block_display}})</td>
+			<td>{{ shift.time_start }}-{{ shift.time_end }}</td>
+			<td>{{ shift.date }}</td>
+			<td>{{ shift.get_day_of_week }}</td>
+			<td>{{ shift.weekly }}</td>
+			<td>{{ shift.original_worker }}</td>
+			<td>{{ shift.substitute_worker }}</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% else %}
+	<p>No shifts have been assigned.</p>
+{% endif %}
+
+{% endblock %}

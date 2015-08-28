@@ -1,0 +1,75 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block styling %}
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'scheduler/schedule.css' %}" />
+{% endblock styling %}
+
+{% block main %}
+	{% if user.is_staff %}
+		<h3>Now viewing <a href="{% url 'profile' worker.user %}">{{worker}}'s</a> schedule.</h3>
+	{% endif %}
+	
+	{% if action == 'request' %}
+		<p>This shift, <strong>{{ shift }}</strong> on {{ date }} has been submitted for approval.</p>
+	{% endif %}
+	
+	<form action="{% url 'scheduler:sub_request' %}" method='post'>
+		{% csrf_token %}
+		<table class="fullwidth objectlist">
+			<thead>
+				<th>Date</th>
+				<th>Position</th>
+				<th>Time</th>
+				<th>Weekly</th>
+				<th></th>
+			</thead>
+			
+			<tbody>
+				{% for week, total_hours, days in weeks %}
+					<tr><td></td></tr>
+					<tr class="week_num {% if week == current_week %}current_week{% endif %}"><td>Week {{week}} - {{total_hours}} hour{{ total_hours|pluralize }}</td>
+					<td></td><td></td><td></td><td></td></tr>
+					{% for weekday, date, shift_list in days %}
+							{% for shift, attrs in shift_list %}
+								<tr class="{{forloop.counter0|add:forloop.parentloop.counter0|divisibleby:2|yesno:'lighter_purple,light_purple'}}
+											{% if forloop.last %} last_shift{% endif %}">
+									{% if forloop.first %}
+										<td><strong>{{weekday}}, {{date}}</strong></td>
+									{% else %}
+										<td></td>
+									{% endif %}
+									
+									{% for attr in attrs.attr_list %}
+										<td>{{attr}}</td>
+									{% endfor %}
+
+									<td>
+										{% if attrs.button_is_visible %}
+											<input type="submit" value="Re{%if attrs.rerequest%}-re{%endif%}quest sub" name="shift_{{ shift.pk }}_{{ week }}"
+											{% if attrs.rerequest %}class="submit_warn"{% endif %}
+											{% if not attrs.submittable %}disabled{% endif %}
+											/>
+										{% else %}
+											{{ attrs.button_message }}
+										{% endif %}
+										
+										{% if user.is_staff %}
+											<form action='' method='post'>
+												<select>
+													<option selected="selected" disabled="disabled" value="-">------</option>
+													<option value="sick">Sick</option>
+													<option value="emergency">Emergency</option>
+												</select>
+												<input type="submit" value="save" name="shift_{{ shift.pk }}_{{ week }}"/>
+											</form>
+										{% endif %}
+									</td>
+								</tr>
+							{% endfor %}
+					{% endfor %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</form>
+{% endblock %}

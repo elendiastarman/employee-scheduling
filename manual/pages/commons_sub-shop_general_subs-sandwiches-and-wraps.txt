@@ -1,0 +1,178 @@
+<Title: How to Make a Sub, Sandwich, or Wrap>
+
+<Section: The Base>
+First, the customer will ask for a type of sub, sandwich, or wrap. There are a variety of flavors available for each.
+
+{
+**Subs**
+
+- Italian[Sign: sign_italian]  
+- Plain[Sign: sign_plain] or White[Sign: sign_white]  
+- Wheat  
+- Sesame  
+|
+![placeholder](/static/pages/placeholder_small.png)
+}
+
+{
+**Sandwiches**
+
+- Wheat
+- White
+- Rye
+- Pita bread
+|
+![placeholder](/static/pages/placeholder_small.png)
+}
+
+{
+**Wraps**
+
+- Spinach
+- Wheat
+- White
+- Roasted red pepper
+- Garlic
+- Tomato
+|
+![placeholder](/static/pages/placeholder_small.png)
+}
+
+If it's a sub, the customer will want either a half sub (7") or a whole sub (14"). If they want a half sub and there aren't any, simply cut a whole sub in half. If it's a sandwich, get two pieces. If it's a wrap, get one wrap. If it's pita bread, then you would typically cut it in half and then proceed as if it was a sandwich.
+
+<HTML: <hr/>>
+
+<Section: The Ingredients>
+
+<Subsection: Mayonnaise or Dressings>
+First, ask if they would like any mayonnaise (usually referred to as "mayo") or dressings. Most customers do want at least some mayo or a dressing, but some do not. They also have the option of having the mayo or dressings on one or both sides. They have two options for the mayo and usually at least five options for dressings.
+
+{
+**Mayonnaise**
+
+- Regular
+- Light
+  
+**Dressings**
+
+- Ranch
+- Regular mustard
+- Honey mustard
+- Dijon mustard
+- Sub oil
+- Horseradish mayo
+- *BBQ sauce (special)*
+- *Spicy ranch (special)*
+|
+![placeholder](/static/pages/placeholder_small.png)  
+![placeholder](/static/pages/placeholder_small.png)
+}
+
+<Subsection: Meats>
+Then, the customer has a choice of meats. **A portion of meat is 2 ounces (oz.)**, and some meats have been pre-weighed whereas you will have to weigh others with the provided scale. A sandwich (including pita bread) or wrap gets **one** (1) portion of meat, a half sub gets **two** (2) portions of meat, and a whole sub gets **four** (4) portions of meat. The customer may choose to have any number and any combination of meats. If they order more meat than they are allotted, they are charged for it. For example, if they ask for chicken, turkey, and ham on a half sub, then that is three portions of meat, which is more than two, so they will be charged for the extra meat.  
+
+<Note: **Note:** bacon is an exception. One portion of bacon is three strips. It is added in addition to any other meats regardless of how many portions there are already, and has its own extra price. For example, if a customer orders ham and bacon on a half sub, then they get *two* portions of ham and *three* strips of bacon. If the customer orders ham and bacon on a whole sub, then they get *four* portions of ham and *six* strips of bacon.>
+
+{
+**Pre-weighed meats**
+
+- Chicken
+- Turkey
+- Ham
+- Roast beef
+- Crispy chicken (cut-up chicken fingers)
+  
+
+**Need-to-weigh meats**
+
+- Salami
+- Cappicola/hot ham
+- Eggplant
+  
+
+**Exceptions**
+
+- Tuna: one portion = one scoop
+- Bacon: one portion = 3 strips
+|
+![placeholder](/static/pages/placeholder_small.png)  
+![placeholder](/static/pages/placeholder_small.png)  
+![placeholder](/static/pages/placeholder_small.png)  
+}
+
+<Subsection: Cheese>
+After the meat comes the cheese. There are five varieties to choose from, four of which are sliced cheeses. A sandwich or wrap gets two half-slices of cheese, a half sub gets two or four half-slices of cheese, depending on what the customer wants, and a whole sub gets three or six half-slices of cheese, depending on what the customer wants. If their desired cheese is pepperjack, which comes in whole squares and isn't cut beforehand, simply tear the squares in half. If their desired cheese is mozzarella, then get a small handful for a sandwich, wrap, or half sub, or a larger handful for a whole sub.
+
+{
+**Types of cheese**
+
+- Pepperjack
+- American
+- Provolone
+- Swiss
+- Mozzarella
+|
+![placeholder](/static/pages/placeholder_small.png)  
+}
+
+<Subsection: Optional: Toasting>
+Most, but not all customers will want their food toasted. **Always check with the customer.** If they ordered a Chicken Bacon Ranch (CBR), Meatball (MB), Eggplant Parmesan (EP), or French Dip (FD) sub, or they ordered extra meat, put it on the back belt of the toaster. The back belt is slower so the meat will be cooked more thoroughly. Otherwise, put it on the front belt.
+
+<Note: **Note:** if the customer ordered a wrap, put any vegetables they want on it (see below), *then* roll it up and toast it.>
+
+<Subsection: Vegetables>
+If the customer did not want their order toasted, if their order has been toasted, or if they ordered a wrap, then the next step is to add vegetables (if desired). There are always at least eight options, of which two are in large pans as they are the most popular and the other six are in small pans.
+
+{
+**Vegetable options**
+
+- Lettuce
+- Tomatoes
+- Black olives
+- Red onions
+- Sauteed onions
+- Dill pickles
+- Sweet peppers
+- Banana peppers
+|
+![placeholder](/static/pages/placeholder_small.png)  
+}
+
+{
+At this point, if the customer ordered a wrap, you would roll up the wrap once all desired vegetables have been put on it.
+|
+![placeholder](/static/pages/placeholder_small.png)  
+}
+
+<HTML: <hr/>>
+
+<Section: Final steps>
+
+Usually, the customer will want their order cut in half, unless it's a half-sub. Even then, some customers do want their half-sub cut in half, and some customers don't want their sandwich, wrap, or whole sub cut in half, so you should **always ask**.
+
+Finally, the customer will want their order either **here** or **to go**. If they want it for here, then put their order on a plate, label the plate if needed, and hand it to them. Otherwise, package it as shown below.
+
+{
+If the customer ordered a sandwich (or pita bread), put it on a plate. Next, get a piece of aluminium foil and write "SAND" (short for sandwich) on it. Then place the foil on top of the sandwich and fold the edges around the edges of the plate.
+|
+![placeholder](/static/pages/placeholder_small.png)
+![placeholder](/static/pages/placeholder_small.png)
+}
+
+{
+Otherwise, place their order on a piece of wax paper and roll it up as shown. Then put it in a bag and label it. If their order was a wrap, write "WRAP". Otherwise, if their order was a special or daily sub, or if it had extra meat, write the corresponding code(s) on it.
+|
+![placeholder](/static/pages/placeholder_small.png)
+![placeholder](/static/pages/placeholder_small.png)
+![placeholder](/static/pages/placeholder_small.png)  
+![placeholder](/static/pages/placeholder_small.png)
+}
+
+Now that the customer's order has been packaged and labelled (if needed), give it to them with a smile on your face! :)
+
+<HTML: <hr/>>
+
+<Section: Miscellaneous Things>
+
+<Subsection: Label Codes>
+blah blah

@@ -1,0 +1,14 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block styling %}
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'scheduler/attendance.css' %}" />
+{% endblock styling %}
+
+{% block main %}
+
+	{% if not print %}<p style="float:right;"><a href="{% url 'scheduler:print_attendance' %}">Print-friendly version</a></p>{% endif %}
+
+	{% include "scheduler/attendance_table.html" %}
+
+{% endblock %}

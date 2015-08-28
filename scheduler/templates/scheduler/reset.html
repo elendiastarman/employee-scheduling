@@ -1,0 +1,35 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block main %}
+	{% if form %}
+		<form action="" method="post">
+			{% csrf_token %}
+			<table>
+			{% for field in form %}
+				<tr>
+					<td>{{ field.label_tag }}</td>
+					<td>{{ field }}</td>
+					{% if field.errors %}
+						{% for error in field.errors %}
+							<td>{{ error }}</td>
+						{% endfor %}
+					{% endif %}
+				</tr>
+			{% endfor %}
+			</table>
+			
+			<input type="submit" value="submit" />
+		</form>
+	{% elif login_url %}
+		<p>Your password has been reset!</p>
+	{% elif valid_link == False %}
+		<p>The link you clicked was not valid.</p>
+	{% else %}
+		<p>A password reset email has been sent to 
+			{% if kwargs %}
+				{{kwargs.otheruser}}.
+			{% else %}
+				you.
+			{% endif %}</p>
+	{% endif %}
+{% endblock %}

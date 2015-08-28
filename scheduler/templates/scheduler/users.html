@@ -1,0 +1,41 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block main %}
+	<table class="objectlist">
+		<thead>
+			<th>Username</th>
+			<th>Name</th>
+			<th>Unit(s)</th>
+			<th>Work Status</th>
+			<th>Approved?</th>
+		</thead>
+		
+		<tbody>
+			<!-- {% comment %}{% for user in users %}
+				<tr>
+					<td><a href="{% url 'profile' user.name %}">{{user.name}}</a></td>
+					{% for item in user.items %}
+						<td>{{item}}</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}{% endcomment %} -->
+			{% for user in users %}
+				{% for unitstatus in user.worker.unitstatus_set.all %}
+					<tr class="{% if forloop.parentloop.counter0|divisibleby:2 %}lighter_purple{% else %}light_purple{% endif %}">
+						{% if forloop.first %}
+							<td><a href="{% url 'profile' user.username %}">{{user.username}}</a></td>
+							<td>{{ user.worker.name }}</td>
+						{% else %}
+							<td></td>
+							<td></td>
+						{% endif %}
+						
+						<td>{{ unitstatus.unit.name }}</td>
+						<td>{{ unitstatus.get_work_status_display }}</td>
+						<td>{% if unitstatus.work_status == 'AA' %}No{% else %}Yes{% endif %}</td>
+					</tr>
+				{% endfor %}
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

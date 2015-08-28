@@ -1,0 +1,122 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block styling %}
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'scheduler/generate.css' %}" />
+{% endblock %}
+
+{% block scripts %}
+	<script type="text/javascript" src="{% static 'scheduler/generate.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+
+	{% if success_message %}
+		<p style="color: green;">{{success_message}}</p>
+	{% elif error_message %}
+		<p class="error">{{error_message}}</p>
+	{% endif %}
+
+	<form action="" method="post">
+		{% csrf_token %}
+		
+		<fieldset><legend>Term Selector</legend>
+			<select name="term_option">
+				{% for term_descriptor, term_name in term_options.items %}
+					<option value="{{term_descriptor}}" {% if term_descriptor == term_selected %}selected="selected"{% endif %}>{{term_name}}</option>
+				{% endfor %}
+			</select>
+			{% if term_option_error %}<p class="error">{{term_option_error}}</p>{% endif %}
+		</fieldset>
+		
+		<br/>
+		
+		<fieldset><legend>Date Ranges</legend>
+			<ul>
+				<li>Dates should be in MM/DD/YY, MM/DD/YYYY, or YYYY-MM-DD format.</li>
+				<li>Times should be in [H]H:MM [AM/PM/am/pm/a.m./p.m.] format.</li>
+				<li>Valid ways to write March 14, 2015 are: 03/14/15, 03/14/2015, and 2015-03-14.</li>
+				<li>Valid ways to specify 3:14 pm are: 03:14 pm, 3:14 PM, and 15:14. (All four of "PM", "pm", "P.M.", and "p.m." are acceptable.)</li>
+				<li>If there is no AM or PM, the time will be interpreted as 24-hour time. "03:14" would be 3:14 AM.</li>
+				<li>If you <em>accidentally</em> add another date range, just leave all fields blank. It will be ignored.</li>
+			</ul>
+			<br/>
+			
+			<div id="date range form blocks"> <!-- note the plural -->
+				{% for values, dat in date_range_blocks %}
+					{% with k=forloop.counter0|add:1 %}
+						<div name="date range form block" value="{{k}}">
+							<table>
+								<tr>
+									<td><label>Start date: <input type="text" name="sd{{k}}" value="{{values.sd}}"/></label> {{dat.sd}}</td>
+									<td><label>Start time: <input type="text" name="st{{k}}" value="{{values.st}}"/></label> {{dat.st}}</td>
+									{% if values.sd_error or values.st_error %}<td class="error">{{values.sd_error}} {{values.st_error}}</td>{% endif %}
+								</tr>
+							<!-- <br/> -->
+								<tr>
+									<td><label>End date: &nbsp;<input type="text" name="ed{{k}}" value="{{values.ed}}"/></label> {{dat.ed}}</td>
+									<td><label>End time: &nbsp;<input type="text" name="et{{k}}" value="{{values.et}}"/></label> {{dat.et}}</td>
+									{% if values.ed_error or values.et_error %}<td class="error">{{values.ed_error}} {{values.et_error}}</td>{% endif %}
+								</tr>
+								{% if values.block_error != '' %}
+									<tr><td class="error" colspan="3">{{values.block_error}}</td></tr>
+								{% endif %}
+							</table>
+						</div>
+					{% endwith %}
+					<br/>
+				{% endfor %}
+			</div>
+	
+			<a style="text-decoration: underline;"><p onclick="addFormBlock('date range form blocks')">Add new date range</p></a>
+		</fieldset>
+		
+		<br/>
+		
+		<fieldset><legend>Weekdays</legend>
+			<table id="weekdays">
+				<tr>
+					{% for wday in weekdays %}
+						<th>{{wday.N}}</th>
+					{% endfor %}
+				</tr>
+				<tr>
+					{% for wday in weekdays %}
+						<td><input type="checkbox" name="weekdays" value="{{wday.n}}" {% if wday.checked %}checked="checked"{% endif %}/></td>
+					{% endfor %}
+				</tr>
+			</table>
+			{% if no_weekdays_selected_error %}<p class="error">{{no_weekdays_selected_error}}</p>{% endif %}
+		</fieldset>
+		
+		<br/>
+		
+		<fieldset><legend>Positions</legend>
+			<table id="positions">
+				<thead>
+					<th>Name</th>
+					<th>Block</th>
+					<th>Default time start</th>
+					<th>Default time end</th>
+					<th>Count</th>
+				</thead>
+				<tbody>
+					{% for position in positions %}
+						<tr>
+							<td>{{position.name}}</td>
+							<td>{{position.block}}</td>
+							<td>{{position.dts}}</td>
+							<td>{{position.dte}}</td>
+							<td><input type="text" size="1" maxlength="1" name="{{position.display}}" value="{{position.num}}"/></td>
+							{% if position.error %}<td class="error">{{position.error}}</td>{% endif %}
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</fieldset>
+		
+		<br/>
+		<input type="submit" value="Generate!"/>
+	</form>
+
+{% endblock %}

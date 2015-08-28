@@ -1,0 +1,86 @@
+{% if has_availability_data %}
+	<h3>Availability</h3>
+	
+	{% if formify %}
+		<form action="" method="post">
+		{% csrf_token %}
+	{% endif %}
+	
+	<div>
+		<table class="objectlist cell_borders">
+			<thead>
+				<th><input class="hidden_checkbox" type="checkbox" name="state" id="state" /></th>
+				{% for weekday in availability_data.weekdays %}
+					<th>{{weekday}}</th>
+				{% endfor %}
+			</thead>
+			
+			<tbody>
+				{% for hour, statuses in availability_data.table.items %}
+					<tr class="{% cycle 'very_light_gray' 'lighter_gray' %}">
+						<td class="right_align">{{hour}}</td>
+						{% for status in statuses %}
+							{% cycle 'Sun' 'Mon' 'Tue' 'Wed' 'Thu' 'Fri' 'Sat' as wday silent %}
+							<td class="{{status}}{{forloop.parentloop.counter0|divisibleby:2|yesno:'0,1'}}" {% if formify %}onclick="toggle('{{wday}}_{{hour}}');"{% endif %}>
+								{% if formify %}
+									<input class="hidden_checkbox" type="checkbox" name="picked"
+										   id="{{wday}}_{{hour}}" value="{{wday}}_{{hour}}"/>
+								{% endif %}
+							</td>
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+	<br/>
+	
+	{% if availability_data.block_list %}
+		<table class="objectlist">
+			<thead>
+				<th>Weekday</th>
+				<th>Start time</th>
+				<th>End time</th>
+			</thead>
+			
+			<tbody>
+				{% for wday, blocks in availability_data.block_list.items %}
+					{% for block in blocks %}
+						<tr class="{% cycle 'lighter_purple' 'light_purple' %}">
+							{% if forloop.first %}
+								<td>{{wday}}</td>
+							{% else %}
+								<td></td>
+							{% endif %}
+							
+							{% if formify %}
+								<td>{{block.time_start}}
+									{% for error in block.time_start.errors %}
+										{{error}}
+									{% endfor %}
+								</td>
+								<td>{{block.time_end}}
+									{% for error in block.time_end.errors %}
+										{{error}}
+									{% endfor %}
+								</td>
+							{% else %}
+								<td>{{block.0}}</td>
+								<td>{{block.1}}</td>
+							{% endif %}
+						</tr>
+					{% endfor %}
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+	
+	{% if formify %}
+		<br/>
+		<input type="submit" name="save availability" value="Save availability" />
+	{% endif %}
+	
+{% endif %}
+
+<br/>

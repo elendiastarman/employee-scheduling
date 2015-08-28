@@ -1,0 +1,49 @@
+<Title: Attendance and Scheduling Policies>
+
+<Section: Scheduling>
+
+<Subsection: Availability>
+- Every semester you must submit your availability using this website. Based on your availability and the needs of The Commons a supervisor will schedule your shifts for you and your schedule will be emailed to you.
+- Once your schedule has been made it will remain the same throughout the entire semester **including exam week**.
+- Do not submit availability for a time if you are not able to be here for that entire block of time.
+- Take travel time and if needed the bus schedule into account when submitting availability.
+- Specific scheduling needs or requests can be added in the “Notes” section when submitting availability.
+
+<Subsection: Regulations>
+- **Mandatory two shift minimum:** all student employees must work a minimum of two shifts per week in The Commons. If you need to be removed from a shift for any reason and you drop down to one shift per week your employment at The Commons will be terminated. The two shift minimum is a mandatory Dining Services policy, no exceptions.
+- **Special regulations for international students:** international students may not work more than twenty hours per week as doing so would violate their student visa regulations and could result in the loss of their student visa. The hiring paperwork required by ISS to obtain a social security card may not be issued until an international student has successfully completed two weeks of employment at The Commons.
+
+<Subsection: Dropping Shifts>
+- If you wish to drop a shift during the first week of a semester due to adding a class or a change in your class schedule, bring proof of the change in your class schedule to a supervisor and you will be taken off of that shift immediately.
+- If you wish to drop a shift after the add/drop date for classes for any reason, you must give two weeks advance notice that you wish to drop the shift OR find a replacement willing to pick up the shift immediately. This helps to ensure that there is time to find a replacement to fill your shift. If you attempt to drop shifts without giving two weeks advanced notice your employment may be terminated.
+
+<Subsection: Final Exam Week>
+- Your schedule will remain the same throughout exam week. You are expected to show up for all of your shifts, including exam week! You are expected to be able to manage your time responsibly.
+- If you cannot make it to one of your shifts during final exam week because an exam is scheduled during or within an hour of your shift then place your shift on the sublist and normal sublist procedures will apply. If you follow proper sublist procedures but no one picks up your shift you can bring proof of the schedule conflict to a supervisor within 24 hours of the shift and it will be counted as excused.
+
+<HTML: <br/>>
+
+<Section: Absences>
+
+<Subsection: Sickness>
+- If you have a fever, vomiting, diarrhea, or a note from your doctor or the RIT Student Health Center you may be considered sick and cannot work. These are the only conditions under which you will be considered sick.
+- If you are sick and cannot work you must contact The Commons a minimum of **THREE HOURS** before your shift is scheduled to start. Failure to contact The Commons in a timely manner will result in your absence being considered unexcused.
+- To call in sick you must contact the supervisor’s office by telephone: **(585) 475-5404**. You must ask to speak to a supervisor. You cannot email, text, leave a message, or call any number other than the supervisor’s number listed here.  Failure to follow these procedures will result in your absence being considered unexcused.  
+- If you are sick for more than one shift you must call in separately for each shift.
+- If you are sick more than twice in one semester you may be asked to provide a note from either a doctor or the Student Health Center proving that you are actually sick. If you cannot provide this your absence may be considered unexcused. Also, after you are well, you may be asked to bring in a note from a doctor or the Student Health Center verifying that you are healthy enough to be safely working in the presence of food. If your health problems are prohibiting you from performing your required job duties you may be removed from the schedule for your own health and for the good operating of The Commons.
+- If you falsely call in sick your employment will be terminated immediately.
+
+<Subsection: Emergencies>
+- If you have a serious emergency, such as a family emergency or an accident requiring hospitalization, and cannot work you must contact The Commons immediately. Failure to contact The Commons prior to your shift may result in your absence being counted as unexcused.
+- Whether your absence is counted as an emergency/excused or unexcused is up to the discretion of management. Do not call in claiming to have an emergency if you do not have a serious and legitimate emergency.
+
+<HTML: <br/>>
+
+<Section: Sublist>
+- The <DjangoURL: 'sublist'>sublist</DjangoURL> is available via this website to all Commons employees as a way to find someone to take your place for one shift if you know in advance that you will not be able to work on one particular day.
+- If you require a sub you must submit your name to the sublist a minimum of THREE DAYS before the shift you cannot attend.
+- Putting your name on the sublist does NOT automatically excuse you from that shift. It is still your shift and you are still responsible for coming to work. If no one picked up your sub shift and you do not show up, you will be written up unless you come to The Commons and contact a supervisor and other arrangements are made in advance.  You will be expected to demonstrate that you have done everything in your power to find a substitute for your shift.
+- If you pick up someone else’s shift you are responsible for working that shift just as if it were your own. If you do not show up for a sub shift it will be counted as an unexcused absence.
+- All sublist requests will be approved or denied by a supervisor via this website.
+- Anyone who submits a shift to the sub list excessively, more than two times in a semester, will be immediately removed from that shift.
+- You may NOT pick up a sub shift for The College Grind unless you have worked there previously or have been trained to work there.

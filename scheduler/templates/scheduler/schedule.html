@@ -1,0 +1,96 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block styling %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'scheduler/schedule.css' %}" />
+{% endblock styling %}
+
+{% block main %}
+
+{% if day_current %}
+	<div id="date_links">
+		<ul class="navbar">
+			<li><a href="{% url 'scheduler:otherday' day_before.year day_before.month day_before.day %}"><h4>◄ {{ day_before_str }}</h4></a></li>
+			<li><h2>Date: {{ day_current_str }}</h2></li>
+			<li><a href="{% url 'scheduler:otherday' day_after.year day_after.month day_after.day %}"><h4>{{ day_after_str }} ►</h4></a></li>
+		</ul>
+	</div>
+{% endif %}
+
+<hr/>
+
+{% if form %}
+{% load static %}
+
+<!-- <link rel="stylesheet" type="text/css"
+    href="{% static 'admin/css/forms.css' %} "/>
+<!-- <link rel="stylesheet" type="text/css"
+    href="{% static 'admin/css/base.css' %} "/>
+<!--<link rel="stylesheet" type="text/css"
+    href="{% static 'admin/css/global.css' %}"/> <!---->
+<link rel="stylesheet" type="text/css"
+    href="{% static 'admin/css/widgets.css' %}"/>
+
+<script>function gettext(txt){ return txt }</script>
+<script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+
+<script type="text/javascript"
+    src="/admin/jsi18n/"></script>
+<script type="text/javascript"
+    src="{% static 'admin/js/core.js' %}"></script>
+<script type="text/javascript"
+    src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+<script type="text/javascript"
+    src="{% static 'admin/js/jquery.js' %}"></script>
+<script type="text/javascript"
+    src="{% static 'admin/js/jquery.init.js' %}"></script>
+<script type="text/javascript"
+    src="{% static 'admin/js/actions.js' %}"></script>
+<script type="text/javascript"
+    src="{% static 'admin/js/calendar.js' %}"></script>
+<script type="text/javascript"
+    src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
+	
+	<div id="jump_form">
+		<form action="" method="POST" id="jump_to_day_form">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" value="Go!" id="jump_submit" />
+		</form>
+	</div>
+{% endif %}
+
+<br/>
+<hr/>
+
+{% if shift_list %}
+	<table>
+		<thead>
+			<th>Position</th>
+			<th>Time</th>
+			<th>Date</th>
+			<th>Day of week</th>
+			<th>Is weekly</th>
+			<th>Original worker</th>
+			<th>Substitute worker</th>
+		</thead>
+		<!-- <hr/> -->
+		<tbody>
+		{% for shift in shift_list %}
+			<tr class="{% cycle 'white' 'light_purple' %}">
+				<td>{{ shift.position.name }} ({{shift.position.get_block_display}})</td>
+				<td>{{ shift.time_start }}-{{ shift.time_end }}</td>
+				<td>{{ shift.date }}</td>
+				<td>{{ shift.get_day_of_week }}</td>
+				<td>{{ shift.weekly }}</td>
+				<td>{{ shift.original_worker }}</td>
+				<td>{{ shift.substitute_worker }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+{% else %}
+	<p>No shifts have been assigned.</p>
+{% endif %}
+
+{% endblock %}

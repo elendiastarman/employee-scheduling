@@ -1,0 +1,41 @@
+<formatting>
+#,
+=##,
+==###,
+===*,*
+
+<TOC>
+commons: Dining Commons Manual
+-policies: Policies
+--general: General
+--attendance-and-scheduling: !Attendance and Scheduling
+--disciplination-and-termination: !Disciplination and Termination
+--uniforms-and-hygiene: !Uniforms and Hygiene
+--safety-and-sanitation: !Safety and Sanitation
+--training-and-job-specific-regulations: !Training and Job-Specific Regulations
+--pay-and-benefits: !Pay and Benefits
+--requirements-for-promotion: !Requirements for Promotion
+-sub-shop: Sub Shop
+--general: General
+---subs-sandwiches-and-wraps: !How to make a sub, sandwich, or wrap
+---salads: !How to make a salad
+---gluten-free: !How to make a gluten free sandwich
+--morning: Morning Duties
+---opening: How to open
+--closing: Closing Duties
+---checklist: Checklist
+-salads: Salads
+-grill-cook: Grill Cook
+-grill-server: Grill Server
+-pizza-cook: Pizza Cook
+-pizza-server: Pizza Server
+-pasta: Pasta
+-entree: Entree Server
+-dining-room: Dining Room
+-beverage: Beverage
+-backhouse-cook: Backhouse Cook
+-dish: Dish
+-manager: ?Managerial Duties
+--general: !General
+--open: Opening
+--close: Closing

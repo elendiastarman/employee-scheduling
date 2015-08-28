@@ -1,0 +1,266 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block styling %}
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'scheduler/add_edit_delete.css' %}" />
+{% endblock %}
+
+{% block scripts %}
+	<!-- <script type="text/javascript" src="{% static 'scheduler/generate.js' %}"></script> -->
+{% endblock %}
+
+{% block main %}
+
+	<p style="float: right;">For now, the built-in admin site can be accessed <a href="{% url 'admin:index' %}">here</a>.</p>
+	
+	<ul id="aed_tabs">
+		<li {% if selected_tab == "positions" %}id="selected_tab"{% endif %}><a href="{% url 'aed_positions' %}">Positions</a></li>
+		<li {% if selected_tab == "blocks" %}id="selected_tab"{% endif %}><a href="{% url 'aed_blocks' %}">Blocks</a></li>
+		<li {% if selected_tab == "terms" %}id="selected_tab"{% endif %}><a href="{% url 'aed_terms' %}">Terms</a></li>
+		<li {% if selected_tab == "units" %}id="selected_tab"{% endif %}><a href="{% url 'aed_units' %}">Unit</a></li>
+	</ul>
+	
+	{% if error_message %}
+		<p class="error">{{error_message}}</p>
+	{% elif success_message %}
+		<p style="color: green;">{{success_message}}</p>
+	{% endif %}
+	
+	{% if selected_tab == "positions" %}
+	
+		<form action="" method="post">
+			{% csrf_token %}
+			
+			<fieldset><legend>Name and block:</legend>
+				<p><label>Name: <input type="text" name="name" maxlength="100" value="{{apf_name}}"/></label></p>
+				{% if name_error %}<p class="error">{{name_error}}</p>{% endif %}
+				<p><label>Block:
+					<select name="block">
+						<option value="-" disabled="disabled" {% if not apf_block or apf_block == '' %}selected="selected"{% endif %}>--------</option>
+						{% for block in block_list %}
+							<option value="{{block.pk}}" {% if apf_block and apf_block == block %}selected="selected"{% endif %}>{{block}}</option>
+						{% endfor %}
+					</select>
+				</label></p>
+				{% if block_error %}<p class="error">{{block_error}}</p>{% endif %}
+				<p><label style="vertical-align: top;">Description (optional): <textarea name="description"/>{{apf_description}}</textarea></label></p>
+				{% if description_error %}<p class="error">{{description_error}}</p>{% endif %}
+			</fieldset>
+			
+			<br/>
+			
+			<fieldset><legend>Times:</legend>
+				<ul>
+					<li>Times should be in [H]H:MM [AM/PM/am/pm/a.m./p.m.] format.</li>
+					<li>For example, 3:14 pm can be written as 03:14 p.m., 3:14 PM, or 15:14.</li>
+					<li>Note that if no AM/PM/am/pm is given, the time is assumed to be based on the 24-hour clock.</li>
+					<li>An input of "3:14" will be interpreted as 3:14 AM.</li>
+				</ul>
+				<p><label>Default start time: <input type="text" name="time_start" maxlength="8" value="{{apf_time_start}}" size="8"/></label></p>
+				{% if time_start_error %}<p class="error">{{time_start_error}}</p>{% endif %}
+				<p><label>Default end time: <input type="text" name="time_end" maxlength="8" value="{{apf_time_end}}" size="8"/></label></p>
+				{% if time_end_error %}<p class="error">{{time_end_error}}</p>{% endif %}
+			</fieldset>
+			
+			<br/>
+		
+			<input type="submit" name="submit" value="{{action}} position"/>
+			{% if action == 'Save' %}<a href="{% url 'aed_positions' %}"><button type="button">Cancel editing</button></a>{% endif %}
+		</form>
+		
+		<br/>
+		<p>Existing positions:</p>
+		
+		<table class="objectlist">
+			<thead>
+				<th>Name</th>
+				<th>Block</th>
+				<th>Default start time</th>
+				<th>Default end time</th>
+				<th>Description</th>
+				<th></th>
+			</thead>
+			<tbody>
+				{% for position in position_list %}
+					<tr class="{% cycle 'lighter_purple' 'light_purple' %}">
+						<td>{{position.name}}</td>
+						<td>{{position.block}}</td>
+						<td>{{position.default_time_start}}</td>
+						<td>{{position.default_time_end}}</td>
+						<td>{{position.description}}</td>
+						<td>
+							<a href="{% url 'aed_positions' %}?edit={{position.pk}}">Edit</a>
+							|
+							<a href="{% url 'aed_positions' %}?copy={{position.pk}}">Copy</a>
+							|
+							{% if position.shift_set.count == 0 %}
+								<a href="{% url 'aed_positions' %}?delete={{position.pk}}">Delete</a>
+							{% else %}
+								<s>Delete</s>
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	
+	{% elif selected_tab == "blocks" %}
+	
+		<form action="" method="post">
+			{% csrf_token %}
+			
+			<fieldset><legend>New block</legend>
+				<p><label>Name: <input type="text" name="name" maxlength="20" size="20" value="{{abf_name}}"/></label>
+				   <em>(Note: no duplicate names.)</em></p>
+				{% if name_error %}<p class="error">{{name_error}}</p>{% endif %}
+				<p><label>Rank (used to order blocks): <input type="text" name="rank" maxlength="3" size="1" value="{{abf_rank}}"/></label>
+				   <em>(Note: block will be inserted at this rank, pushing later ones down.)</em></p>
+				{% if rank_error %}<p class="error">{{rank_error}}</p>{% endif %}
+				<p><label style="vertical-align: top;">Description (optional): <textarea name="description"/>{{abf_description}}</textarea></label></p>
+				{% if description_error %}<p class="error">{{description_error}}</p>{% endif %}
+				
+				<input type="submit" name="submit" value="{{action}} block"/>
+				{% if action == 'Save' %}<a href="{% url 'aed_blocks' %}"><button type="button">Cancel editing</button></a>{% endif %}
+			</fieldset>
+		</form>
+		
+		<br/>
+		<p>Existing blocks:</p>
+		
+		<table class="objectlist">
+			<thead>
+				<th>Name</th>
+				<th>Rank</th>
+				<th>Description</th>
+				<th></th>
+			</thead>
+			<tbody>
+				{% for block in block_list %}
+					<tr class="{% cycle 'lighter_purple' 'light_purple' %}">
+						<td>{{block.name}}</td>
+						<td>{{block.rank}}</td>
+						<td>{{block.description}}</td>
+						<td>
+							<a href="{% url 'aed_blocks' %}?edit={{block.rank}}">Edit</a>
+							|
+							<a href="{% url 'aed_blocks' %}?delete={{block.rank}}">Delete</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	
+	{% elif selected_tab == "terms" %}
+	
+		<form action="" method="post">
+			{% csrf_token %}
+			
+			<fieldset><legend>Names:</legend>
+				<p><label>Name (e.g. Fall 2014): <input type="text" name="name" maxlength="100" value="{{atf_name}}"/></label></p>
+				{% if name_error %}<p class="error">{{name_error}}</p>{% endif %}
+				<p><label>Descriptor (e.g. 20141): <input type="text" name="descriptor" maxlength="5" value="{{atf_descriptor}}" size="5"/></label></p>
+				{% if descriptor_error %}<p class="error">{{descriptor_error}}</p>{% endif %}
+			</fieldset>
+			
+			<br/>
+			
+			<fieldset><legend>Dates:</legend>
+				<ul>
+					<li>Dates should be in MM/DD/YY, MM/DD/YYYY, or YYYY-MM-DD format.</li>
+					<li>For example, March 14, 2015 could be 03/14/15, 03/14/2015, or 2015-03-14.</li>
+				</ul>
+				<p><label>Start date: <input type="text" name="date_start" maxlength="10" value="{{atf_date_start}}" size="10"/></label></p>
+				{% if date_start_error %}<p class="error">{{date_start_error}}</p>{% endif %}
+				<p><label>End date: <input type="text" name="date_end" maxlength="10" value="{{atf_date_end}}" size="10"/></label></p>
+				{% if date_end_error %}<p class="error">{{date_end_error}}</p>{% endif %}
+			</fieldset>
+			
+			<br/>
+		
+			<input type="submit" name="submit" value="{{action}} term"/>
+			{% if action == 'Save' %}<a href="{% url 'aed_terms' %}"><button type="button">Cancel editing</button></a>{% endif %}
+		</form>
+		
+		<br/>
+		<p>Existing terms:</p>
+		
+		<table class="objectlist">
+			<thead>
+				<th>Name</th>
+				<th>Descriptor</th>
+				<th>Start date</th>
+				<th>End date</th>
+				<th></th>
+			</thead>
+			<tbody>
+				{% for term in term_list %}
+					<tr class="{% cycle 'lighter_purple' 'light_purple' %}">
+						<td>{{term.name}}</td>
+						<td>{{term.descriptor}}</td>
+						<td>{{term.date_start}}</td>
+						<td>{{term.date_end}}</td>
+						<td>
+							{% if term.date_end >= today %}
+								<a href="{% url 'aed_terms' %}?edit={{term.descriptor}}">Edit</a>
+							{% else %}
+								<s>Edit</s>
+							{% endif %}
+							|
+							{% if term.shift_set.count == 0 %}
+								<a href="{% url 'aed_terms' %}?delete={{term.descriptor}}">Delete</a>
+							{% else %}
+								<s>Delete</s>
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	
+	{% elif selected_tab == "units" %}
+	
+		<form action="" method="post">
+			{% csrf_token %}
+			
+			<fieldset><legend>Names:</legend>
+				<p><em><strong>CAUTION:</strong> changing these, especially the short name, <strong>may</strong>
+				   break functionality somewhere.</em> (If it does, please let me, Lee, know.)</p>
+				<p><label>Name: <input type="text" name="name" maxlength="100" value="{{euf_name}}"/></label></p>
+				{% if name_error %}<p class="error">{{name_error}}</p>{% endif %}
+				<p><label>Short name: <input type="text" name="short_name" maxlength="20" value="{{euf_short_name}}"/></label></p>
+				{% if short_name_error %}<p class="error">{{short_name_error}}</p>{% endif %}
+			</fieldset>
+			
+			<br/>
+			
+			<fieldset><legend>Attributes:</legend>
+				<p><label>Number of hours in advance to request a sub: <input type="text" name="subreq" maxlength="3" size="1" value="{{euf_subreq}}"/></label></p>
+				{% if subreq_error %}<p class="error">{{subreq_error}}</p>{% endif %}
+				<p><label>Maximum number of hours per week: <input type="text" name="hourly" maxlength="2" size="1" value="{{euf_hourly}}"/></label>
+				   <em>(Note: For non-international students.)</em></p>
+				{% if hourly_error %}<p class="error">{{hourly_error}}</p>{% endif %}
+				<p>Weekdays that you're open on: <em>(Note: the "Varies" option indicates that some days may or may not have shifts.)</em></p>
+				<table>
+					<tr>
+						{% for wday in weekdays %}
+							<th>{{wday.name}}</th>
+						{% endfor %}
+					</tr>
+					<tr>
+						{% for wday in weekdays %}
+							<td style="text-align: center;"><input type="checkbox" name="weekdays" {% if wday.checked %}checked="checked"{% endif %} value="{{wday.N}}"/></td>
+						{% endfor %}
+					</tr>
+				</table>
+				{% if weekdays_error %}<p class="error">{{weekdays_error}}</p>{% endif %}
+			</fieldset>
+			
+			<br/>
+		
+			<input type="submit" value="Save unit"/>
+			<a href="{% url 'aed_units' %}"><button type="button">Cancel changes</button></a>
+		</form>
+	
+	{% endif %}
+
+{% endblock %}

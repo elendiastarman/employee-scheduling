@@ -1,0 +1,80 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block styling %}
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'scheduler/profile.css' %}" />
+{% endblock %}
+
+{% block main %}
+	{% if other_user_dne %}
+		<p>There is no user with the username {{other_user}}.</p>
+	{% else %}
+		{% if other_user %}
+			<p>Now viewing the profile of {{other_user.worker}}.</p>
+		{% else %}
+			<p id="welcome">Hello {{user.worker}}, welcome to your profile!</p>
+		{% endif %}
+		
+		{% if worker_data %}
+			<table>
+			{% for field, value in worker_data.items %}
+				<tr class="{% cycle 'lighter_purple' 'light_purple' %}">
+					<td><strong>{{field}}:</strong></td>
+					<td>{{value}}</td>
+				</tr>
+			{% endfor %}
+			</table>
+		{% endif %}
+		
+		<br/>
+		<h3>Units</h3>
+		<table>
+			{% if other_user %}
+				{% for unitstatus in other_user.worker.unitstatus_set.all %}
+					<tr>
+						<td><strong>{{unitstatus.unit.name}}</strong></td>
+						<td>{{unitstatus.get_work_status_display}}</td>
+					</tr>
+				{% endfor %}
+			{% else %}
+				{% for unitstatus in user.worker.unitstatus_set.all %}
+					<tr>
+						<td><strong>{{unitstatus.unit.name}}</strong></td>
+						<td>{{unitstatus.get_work_status_display}}</td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+		</table>
+		
+		<br/>
+		
+		{% include "scheduler/availability_table.html" %}
+		
+		{% if other_user %}
+			<div class="buttons">
+				<form method="get" action="{% url 'profile_edit' other_user.username %}"><input type="submit" value="edit profile"/></form>
+				
+				<form action="{% url 'password_reset_otheruser' other_user.username %}" method="post">
+					{% csrf_token %}
+					{% for field in form %}
+						{{ field.as_hidden }}
+					{% endfor %}
+					<input type="submit" value="reset password" />
+				</form>
+				
+				<br/><br/>
+				
+				<form method="post" action="{% url 'deactivate' other_user.username %}">{%csrf_token%}<input type="submit" name="deactivate" value="deactivate"/></form>
+				<form method="post" action="{% url 'delete' other_user.username %}">{%csrf_token%}<input type="submit" name="delete" value="delete"/></form>
+				<br/>
+				<p>WARNING: Deletion cannot be undone. Deactivation is preferable.</p>
+			</div>
+		{% else %}
+			<div class="buttons">
+				<form method="get" action="{% url 'password_change' %}"><input type="submit" value="change password"/></form>
+				<form method="get" action="{% url 'profile_edit' %}"><input type="submit" value="edit profile"/></form>
+			</div>
+		{% endif %}
+		<br/>
+	{% endif %}
+{% endblock %}

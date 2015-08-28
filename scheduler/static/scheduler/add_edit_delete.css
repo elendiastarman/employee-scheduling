@@ -1,0 +1,26 @@
+#aed_tabs {
+	padding-left: 0px;
+	margin-bottom: 20px;
+}
+#aed_tabs li {
+	display: inline;
+}
+#aed_tabs a {
+	background-color: #D1C0F1;
+	padding: 10px;
+	margin: 5px;
+	color: #380155;
+	text-decoration: none;
+	border: 1px transparent;
+}
+#selected_tab a {
+	background-color: #E1D0FF;
+	border: 1px solid black;
+}
+
+.show_on_hover a {
+	display: none;
+}
+tr:hover > .show_on_hover a {
+	display: initial;
+}

@@ -1,0 +1,22 @@
+{% if users %}
+	<p>Th{{ users|pluralize:"is,ese" }} user{{ users|pluralize }} w{{ users|pluralize:"as,ere" }} {{action}}:</p>
+	<ul>
+		{% for user in users %}
+			<li>{{user.worker}} (<a href="{% url 'profile' user.username %}">{{user}}</a>)</li>
+		{% endfor %}
+	</ul>
+{% elif shifts %}
+	<p>Th{{ shifts|pluralize:"is,ese" }} shift{{ shifts|pluralize }} w{{ shifts|pluralize:"as,ere" }} {{action}}:</p>
+	<ul>
+		{% for shift, date_str in shifts %}
+			<li>{{shift}} on {{date_str}}, submitted by {{shift.worker}}</li>
+		{% endfor %}
+	</ul>
+{% elif subs %}
+	<p>Th{{ subs|pluralize:"is,ese" }} sub{{ subs|pluralize }} w{{ subs|pluralize:"as,ere" }} {{action}}:</p>
+	<ul>
+		{% for sub_worker, shift in subs %}
+			<li>{{sub_worker}} for {{shift}} on {{shift.date_str}}</li>
+		{% endfor %}
+	</ul>
+{% endif %}

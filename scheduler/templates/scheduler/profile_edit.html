@@ -1,0 +1,104 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block styling %}
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'scheduler/profile.css' %}" />
+{% endblock %}
+
+{% block scripts %}
+	<script type="text/javascript" src="{% static 'scheduler/profile.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+	{% if 0 %}
+		{% debug %}
+	{% endif %}
+	
+	{% if saved %}
+		<p>Saved!</p>
+	{% endif %}
+	
+	{% if other_user %}
+		<form action="{% url 'profile' other_user %}" style="display: inline;"><input type="submit" value="Done editing"/></form>
+	{% else %}
+		<form action="{% url 'profile' user %}" style="display: inline;"><input type="submit" value="Done editing"/></form>
+	{% endif %}
+	<br/><br/>
+	
+	{% if form_info %}
+		{% if form_info.errors %}
+			<p>Please fix any errors and try again.</p>
+			{{ form.non_field_errors }}
+		{% endif %}
+		
+		<form method="post" action="">
+			{% csrf_token %}
+			<table>
+				{% for field in form_info %}
+					<tr>
+						<td>{{ field.label_tag }}</td>
+						<td>{{ field }}</td>
+						{% if field.errors %}
+							{% for error in field.errors %}
+								<td>{{ error }}</td>
+							{% endfor %}
+						{% else %}
+							<td>{{ field.help_text }}</td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+			</table>
+
+			<input type="submit" name="submit info" value="Save" />
+			<input type="hidden" name="next" value="{{ next }}" />
+		</form>
+	{% endif %}
+	
+	<br/>
+	<h3>Units</h3>
+	{% if add_unit_form %}
+		<form method="post" action="">
+			{% csrf_token %}
+			<table>
+				<!-- {% comment %}{% if other_user %}
+					{% for unitstatus in other_user.worker.unitstatus_set.all %}
+						<tr>
+							<td><strong>{{unitstatus.unit.name}}</strong></td>
+							<td>{{unitstatus.get_work_status_display}}</td>
+						</tr>
+					{% endfor %}
+				{% else %}
+					{% for unitstatus in user.worker.unitstatus_set.all %}
+						<tr>
+							<td><strong>{{unitstatus.unit.name}}</strong></td>
+							<td>{{unitstatus.get_work_status_display}}</td>
+						</tr>
+					{% endfor %}
+				{% endif %}{% endcomment %} -->
+				{% for unitstatus in worker.unitstatus_set.all %}
+					<tr>
+						<td><strong>{{unitstatus.unit.name}}</strong></td>
+						<td>{{unitstatus.get_work_status_display}}</td>
+					</tr>
+				{% endfor %}
+				
+				{% if not other_user %}
+					<!-- <tr><td>Number of fields?</td><td>{{ add_unit_form.fields.values.0.choices|length }}</td><td>{{ add_unit_form.fields.unit_choices.choices }}</tr> -->
+					{% if add_unit_form.fields.unit_choices.choices|length > 0 %}
+						{% for field in add_unit_form %}
+							<tr>
+								<td>{{field}}</td>
+								<td><input type="submit" name="add unit" value="Add unit" /></td>
+								{% for error in field.errors %}
+									<td>{{error}}</td>
+								{% endfor %}
+							</tr>
+						{% endfor %}
+					{% endif %}
+				{% endif %}
+			</table>
+		</form>
+	{% endif %}
+	
+	{% include "scheduler/availability_table.html" %}
+{% endblock %}

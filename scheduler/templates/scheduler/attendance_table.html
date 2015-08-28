@@ -1,0 +1,63 @@
+	{% if print %}
+		<style>
+			th{ border-bottom: 3px solid black; }
+			table{ border-collapse: collapse; }
+		</style>
+	{% endif %}
+	{% if print %}<p style="float: right;"><a href="{% url 'scheduler:attendance' %}">Return to web version</a></p>{% endif %}
+
+	<h2>{{date}}</h2>
+	
+	{% if not print %}
+		<form action="" method="post">
+			{% csrf_token %}
+	{% endif %}
+	
+	<table class="objectlist" style="width: 100%;">
+		<thead>
+			<tr style="text-align: left; font-size: 14pt;">
+				<th>Position</th>
+				<th>Name</th>
+				<th>Time</th>
+				<th>Hours</th>
+				<th>Initial</th>
+				<th>Here</th>
+				<th>Note</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			{% for shift, info in shifts %}
+				<tr>
+					{% if shift != None %}
+						<td>{{info.position}}</td>
+						<td>{{info.name}}</td>
+						<td>{{info.time}}</td>
+						<td>{{info.hours}}</td>
+						<td>___</td>
+						<td>
+							<input type="checkbox" name="is_present" value="c_{{shift.pk}}"
+							{% if info.present == True %}checked="checked"{% endif %}
+							{% if print %}disabled="disabled"{% endif %}
+							/>
+						</td>
+						<td class="submit">
+							{% if print %}
+								{{info.note}}
+							{% else %}
+								<input type="text" maxlength="50" value="{{info.note}}" name="n_{{shift.pk}}"/>
+							{% endif %}
+						</td>
+						<!-- <td>{{shift.date_start}}</td> -->
+					{% else %}
+						<td style="padding-top: 10px; padding-bottom: 5px;"><strong>{{info}}</strong></td>
+					{% endif %}
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if not print %}
+			<input type="submit" value="Save" style="float: right;"/>
+		</form>
+	{% endif %}

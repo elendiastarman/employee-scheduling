@@ -1,0 +1,17 @@
+#weekdays th, #weekdays td {
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+#positions {
+	border-collapse: collapse;
+}
+
+#positions th {
+	border-bottom: 3px solid #380155;
+	text-align: left;
+}
+
+.error {
+	color: red;
+}

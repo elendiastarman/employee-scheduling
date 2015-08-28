@@ -1,0 +1,202 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% if user.is_staff %}
+	{% block styling %}
+		{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static 'scheduler/home.css' %}" />
+	{% endblock %}
+	
+	{% block scripts %}
+		<script type="text/javascript" src="{% static 'scheduler/home.js' %}"></script>
+	{% endblock %}
+{% endif %}
+
+{% block main %}
+	<div id="announcements_block">
+		{% if personal_notes %}
+		
+		{% endif %}
+		
+		<h3>Announcements</h3>
+		{% if user.is_staff and not form.errors and not edit %}
+			<p id="show announcements" onclick="showAnnouncements('announcements');">Click to show announcements.</p>
+		{% endif %}
+		
+		<div id="announcements"
+			{% if user.is_staff and not form.errors and not edit %}style="display: none;"{% endif %}
+		>
+			{% for announcement in announcements %}
+				<div style="overflow: hidden;">
+					{% if user.is_staff %}
+						<p class="edit_delete_announcement">
+							<a href="{% url 'home' %}?edit={{announcement.pk}}">edit</a> | <a href="{% url 'home' %}?delete={{announcement.pk}}">delete</a>
+						</p>
+					{% endif %}
+					
+					<p class="{{announcement.get_kind_display.lower}}"><strong>{{announcement.get_kind_display}}: {{announcement.title}}</strong> <br/>
+						{% load scheduler_extras %}
+						{% markdown announcement.body %}
+						{% if announcement.image %}
+							<br/> <img src="{{announcement.image.url}}" />
+						{% endif %}
+					</p>
+				</div>
+			{% empty %}
+				<p><em>There are no announcements at this time.</em></p>
+			{% endfor %}
+				
+			{% if user.is_staff %}
+				<!-- add announcement form -->
+				<form action="" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<table>
+						{% for error in form.errors %}
+							<tr><td>{{error}}</td></tr>
+						{% endfor %}
+						{% for field in add_announcement_form %}
+							<tr>
+								<td>{{field.label}}:</td>
+								<td>{{field}}</td>
+								{% for error in field.errors %}
+									<td>{{error}}</td>
+								{% endfor %}
+							</tr>
+						{% endfor %}
+					</table>
+					
+					{% if not edit %}
+						<input type="submit" name="add announcement" value="Add announcement" />
+					{% else %}
+						<input type="submit" name="add announcement" value="Save announcement" />
+					{% endif %}
+				</form>
+			{% endif %}
+		</div>
+	
+	</div>
+
+	{% if user.is_staff %} <!-- admin/staff stuff -->
+		
+		{% include "scheduler/approve_deny.html" %}
+		
+		{% if users_to_approve %}	
+			<h3>The following users are awaiting approval.</h3>
+			<form action="{% url 'approve_deny_users' %}" method="post">
+				{% csrf_token %}
+				<table class="objectlist">
+					<thead><tr>
+						<th>Username</th>
+						<th>Name</th>
+						<th></th>
+					</tr></thead>
+					
+					<tbody>
+						{% for user in users_to_approve %}
+							<!-- <tr class="{% cycle 'white' 'light_purple' %}"> -->
+							<tr>
+								<td><a href="{% url 'profile' user.username %}">{{user.username}}</a></td>
+								<td>{{user.worker.name}}</td>
+								<td><input type="checkbox" name="picked" value="{{user.username}}" /></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				
+				<div class="buttons">
+					<input type="submit" name="approve" value="approve" />
+					<input type="submit" name="deny" value="deny" />
+					<input type="submit" name="approve_all" value="approve all" />
+				</div>
+			</form>
+		{% endif %}
+		
+		{% if shifts_to_approve %}
+			<h3>The following shifts are awaiting approval.</h3>
+			<form action="{% url 'approve_deny_shifts' %}" method="post">
+				{% csrf_token %}
+				<table class="objectlist">
+					<thead><tr>
+						<th>Worker</th>
+						<th>Date</th>
+						<th>Week</th>
+						<th>Position</th>
+						<th></th>
+					</tr></thead>
+					<tbody>
+						{% for item in shifts_to_approve %}
+							<tr>
+								<td>{% if not item.shift.substitute_worker %}
+										{{item.shift.original_worker.name}}
+									{% else %}
+										{{item.shift.substitute_worker.name}}
+									{% endif %}
+								</td>
+								<td>{{item.date_str}}</td>
+								<td>{{item.weekNum}}</td>
+								<td>{{item.shift.position}}</td>
+								<td><input type="checkbox" name="picked" value="{{item.shift.pk}}_{{item.weekNum}}" /></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				
+				<div class="buttons">
+					<input type="submit" name="approve" value="approve" />
+					<input type="submit" name="deny" value="deny" />
+					<input type="submit" name="ignore" value="ignore" />
+					<input type="submit" name="approve_all" value="approve all" />
+				</div>
+			</form>
+		{% endif %}
+		
+		{% if subs_to_approve %}
+			<h3>The following subs are awaiting approval.</h3>
+			<form action="{% url 'approve_deny_subs' %}" method="post">
+				{% csrf_token %}
+				<table class="objectlist">
+					<thead><tr>
+						<th>Date</th>
+						<th>Week</th>
+						<th>Position</th>
+						<th>Previous worker</th>
+						<th>Worker(s)</th>
+						<th>Experience level</th>
+						<th></th>
+						<th></th>
+					</tr></thead>
+					<tbody>
+						{% for sub, pick_requests in subs_to_approve %}
+							{% for worker, exp_level in pick_requests %}
+								<tr {% if forloop.last %}class="last_row"{% endif %}>
+									{% if forloop.first %}
+										<td>{{sub.date_str}}</td>
+										<td>{{sub.week_first|add:1}}</td>
+										<td>{{sub.position}}</td>
+										<td>{{sub.worker}}</td>
+									{% else %}
+										<td></td><td></td><td></td><td></td>
+									{% endif %}
+									
+									<label for="picked_{{sub.pk}}">
+									<td>{{worker}}</td>
+									<td><div class="exp_lev">{{exp_level}} <p class="exp_box exp_{{exp_level}}"></p></div></td>
+									</label>
+									<td><input type="radio" name="picked_{{sub.pk}}" value="{{worker.pk}}" id="picked_{{sub.pk}}_{{worker.pk}}"
+											onclick="switchToggle('picked_{{sub.pk}}_{{worker.pk}}', 'choice_{{sub.pk}}');"
+										/></td>
+									<input type="hidden" name="choice_{{sub.pk}}" value="" id="choice_{{sub.pk}}"
+								</tr>
+							{% endfor %}
+						{% endfor %}
+					</tbody>
+				</table>
+				
+				<div class="buttons">
+					<input type="submit" name="approve" value="approve" />
+					<input type="submit" name="deny" value="deny" />
+					<!-- <input type="submit" name="approve_all" value="approve all" /> -->
+				</div>
+			</form>
+		{% endif %}
+	{% endif %}
+{% endblock %}

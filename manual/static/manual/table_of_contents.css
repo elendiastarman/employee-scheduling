@@ -1,0 +1,18 @@
+ul {
+	list-style: none;
+}
+li * {
+	margin-top: 0px;
+	margin-bottom: 0px;
+	display: inline;
+}
+
+.expanded li {
+	/* display: block; */
+	/* background-color: orange; */
+}
+
+.collapsed li {
+	display: none;
+	/* background-color: yellow; */
+}

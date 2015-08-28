@@ -1,0 +1,33 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block main %}
+	{% if registered %}
+		<p>User <a href="{% url 'profile' new_user %}">{{new_user}}</a> has been registered!</p>
+	{% else %}
+		{% if form.errors %}
+			<p>Please fix any errors and try again.</p>
+		{% endif %}
+		
+		<form method="post" action="{% url 'register' %}">
+			{% csrf_token %}
+			<table>
+				{% for field in form %}
+					<tr>
+						<td>{{ field.label_tag }}</td>
+						<td>{{ field }}</td>
+						{% if field.errors %}
+							{% for error in field.errors %}
+								<td class="error">{{ error }}</td>
+							{% endfor %}
+						{% else %}
+							<td>{{ field.help_text }}</td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+			</table>
+
+			<input type="submit" value="register" />
+			<input type="hidden" name="next" value="{{ next }}" />
+		</form>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,32 @@
+.exp_lev {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.exp_box {
+	display: inline;
+	margin: 5px;
+	padding: 2px;
+	/* vertical-align: middle; */
+}
+
+.exp_untrained {
+	background-color: red;
+}
+.exp_trained {
+	background-color: orange;
+}
+.exp_experienced {
+	background-color: green;
+}
+.exp_expert {
+	background-color: blue;
+}
+
+.last_row {
+	border-bottom: #380155 solid 1px;
+}
+
+.edit_delete_announcement {
+	float: right;
+	padding-right: 14px;
+}

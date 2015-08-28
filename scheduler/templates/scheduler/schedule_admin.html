@@ -1,0 +1,127 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block styling %}
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'scheduler/schedule.css' %}" />
+{% endblock styling %}
+
+{% block main %}
+
+	{% if user.is_staff or user.worker.rank.rank == 'Ma' %}
+	
+		{% if user.is_staff %}
+			{% if day_current %}
+				<div id="date_links">
+					<!-- <ul class="navbar">
+						<li><a href="{% url 'scheduler:otherday' day_before.year day_before.month day_before.day %}"><h4>◄ {{ day_before_str }}</h4></a></li>
+						<li><h2>Date: {{ day_current_str }}</h2></li>
+						<li><a href="{% url 'scheduler:otherday' day_after.year day_after.month day_after.day %}"><h4>{{ day_after_str }} ►</h4></a></li>
+					</ul> -->
+					<table>
+						<tr>
+							<td class="first_cell">{% if term_start_str %}<a href="{{ term_start_url }}"><p>│◄◄ {{ term_start_str }}</p></a>{% endif %}</td>
+							<td><a href="{{ week_before_url }}"><p>◄◄ {{ week_before_str }}</p></a></td>
+							<td><a href="{{ day_before_url }}"><h4>◄ {{ day_before_str }}</h4></a></td>
+							<td><h3>{{ day_current_str }}</h3></td>
+							<td><a href="{{ day_after_url }}"><h4>{{ day_after_str }} ►</h4></a></td>
+							<td><a href="{{ week_after_url }}"><p>{{ week_after_str }} ►►</p></a></td>
+							<td>{% if term_end_str %}<a href="{{ term_end_url }}"><p>{{ term_end_str }} ►►│</p></a>{% endif %}</td>
+						</tr>
+					</table>
+				</div>
+			{% endif %}
+
+			<hr/>
+
+			{% if form %}
+				{% load static %}
+				<link rel="stylesheet" type="text/css"
+					href="{% static 'admin/css/widgets.css' %}"/>
+
+				<script>function gettext(txt){ return txt }</script>
+				<script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+
+				<script type="text/javascript"
+					src="/admin/jsi18n/"></script>
+				<script type="text/javascript"
+					src="{% static 'admin/js/core.js' %}"></script>
+				<script type="text/javascript"
+					src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+				<script type="text/javascript"
+					src="{% static 'admin/js/jquery.js' %}"></script>
+				<script type="text/javascript"
+					src="{% static 'admin/js/jquery.init.js' %}"></script>
+				<script type="text/javascript"
+					src="{% static 'admin/js/actions.js' %}"></script>
+				<script type="text/javascript"
+					src="{% static 'admin/js/calendar.js' %}"></script>
+				<script type="text/javascript"
+					src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
+				
+				<div id="jump_form">
+					<form action="" method="POST" id="jump_to_day_form">
+						{% csrf_token %}
+						{{ form.as_p }}
+						<input type="submit" value="Go!" id="jump_submit" />
+					</form>
+				</div>
+			{% endif %}
+
+			<br/>
+			<hr/>
+			
+		{% endif %}
+
+		<table id="shift_table">
+			<thead>
+				<th></th>
+				{% for wday_name, wday_url in wday_names %}
+					<th {% if day_current_weekday == wday_name %}class="highlight"{% endif %}>
+						{% if wday_url and user.is_staff %}
+							<a href="{{wday_url}}">{{wday_name}}</a>
+						{% else %}
+							{{wday_name}}
+						{% endif %}
+					</th>
+				{% endfor %}
+			</thead>
+			
+			<tbody>
+				{% if shift_table %}
+					{% for label, shifts in shift_table %}
+						<tr>
+							<td style="white-space: pre;">{{label}}</td>
+							{% for shift in shifts %}
+								{% if shift and shift.0.worker != None %}
+									<td class="exp_{{shift.1}}
+											{% if forloop.counter0 == day_current_wday %}highlight_border{% endif %}
+											{% if forloop.parentloop.last %}day_last{% endif %}">
+										{% if user.is_staff %}
+											<a href="{% url 'scheduler:otheruser' shift.0.worker.user.username %}">{{shift.0.worker}}</a>
+										{% else %}
+											{{shift.0.worker}}
+										{% endif %}
+										<br/>{{shift.0.worker.telephone}}
+										{% if shift.0.worker == shift.0.substitute_worker %}
+											<p class="sub_text">sub</p>
+										{% endif %}
+									</td>
+								{% else %}
+									<td class="{% if forloop.counter0 == day_current_wday %}highlight_border{% endif %}
+										{% if not shift %}no_shift{% endif %}
+										{% if forloop.parentloop.last %}day_last{% endif %}"></td>
+								{% endif %}
+							{% endfor %}
+						</tr>
+					{% endfor %}
+				{% endif %}
+			</tbody>
+		</table>
+		
+	{% else %}
+	
+		<p>There must be some mistake. You're not supposed to see this!
+	
+	{% endif %}
+
+{% endblock %}

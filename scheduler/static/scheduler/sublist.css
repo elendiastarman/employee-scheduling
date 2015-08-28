@@ -1,0 +1,25 @@
+.sublist_tab {
+	color: #380155;
+	background-color: #D1C0F1;
+	padding: 10px;
+	margin: 5px;
+	text-decoration: none;
+}
+.tab_selected {
+	background-color: #E1D0FF;
+	border: black solid 1px;
+}
+
+#weekday_tabs p {
+	float: left;
+}
+#open_tabs p {
+	float: right;
+}
+
+.week_label_top td {
+	border-top: #380155 solid 1px;
+}
+.week_label_bot td {
+	border-bottom: #380155 solid 2px;
+}

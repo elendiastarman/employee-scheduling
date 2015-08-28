@@ -1,0 +1,66 @@
+{% extends "scheduler/headerFooter.html" %}
+
+{% block styling %}
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static 'manual/manual_page.css' %}" />
+{% endblock %}
+
+{% block scripts %}
+	<script type="text/javascript" src="{% static 'manual/manual_page.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+	{% if parent %}
+		<div id="sidebar">
+			<!-- <h3><a href="{% url 'manual:main' parent %}">Table of Contents</a></h3> -->
+			
+			<h3>Table of Contents</h3>
+			<div id="page_toc">
+				{% for item in page_toc %}
+					<p>{{item.2}}<a href="#{{item.0}}">{{item.1}}</a></p>
+				{% endfor %}
+			</div>
+			
+			<hr/>
+		
+			{% for item in flattened_tree %}
+				
+				{% if forloop.first %}
+					{{item.1}}
+				{% elif item == 'in' %}
+					<ul>
+				{% elif item == 'out' %}
+					</ul>
+				{% else %}
+					<li>{{item.1}}</li>
+				{% endif %}
+				
+			{% endfor %}
+		</div>
+	{% endif %}
+	
+	{% if error_message %}
+		{{error_message}}
+	{% endif %}
+	
+	{% if content %}
+		<table>
+			{% for row in content %}
+				<tr>
+					{% if row|length == 1 %}
+						<td colspan=2>{{row.0}}</td>
+					{% else %}
+						{% for item in row %}
+							<td class="{%if not forloop.last%}right_border{%endif%}">{{item}}</td>
+						{% endfor %}
+					{% endif %}
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+	
+	{% if record_info %}
+		<br/>
+		<em>{{record_info}}</em>
+	{% endif %}
+{% endblock %}
